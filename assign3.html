@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <style>
+    /* 여백 없이 캔버스만 딱 보이게 하는 설정 */
+    body { padding: 0; margin: 0; overflow: hidden; }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js"></script>
+</head>
+<body>
+  <script>
+function setup() {
+  createCanvas(600, 400);
+}
+
+function draw() {
+  background(220);
+
+  fill(0); // 커서 X, Y 좌표 표시
+  text("X: " + mouseX + "  Y: " + mouseY, 10, 20); 
+
+  // --- 1. 애니메이션 로직 (a 키 누를 때) ---
+  let headOffset = 0;
+  if (keyIsPressed && (key === 'a' || key === 'A')) { 
+    headOffset = 15; // 아래로 15픽셀 이동
+  }
+
+  // 얼굴 범위 체크 (움직임 반영)
+  let d = dist(mouseX, mouseY, 300, 160 + headOffset);
+  let isGrumpy = mouseIsPressed && (d < 75);
+
+  strokeWeight(2);    
+  stroke(0);
+
+  // --- 2. 머리 부위 (headOffset 반영) ---
+  fill(60, 40, 30); 
+  ellipse(300, 160 + headOffset, 170, 200); // 뒷머리
+  
+  // 몸통과 팔 (고정)
+  fill(255, 245, 215);
+  rect(180, 263, 50, 110, 15); 
+  rect(370, 263, 50, 110, 15);
+  fill(20, 60, 10); 
+  rect(219, 263, 160, 100); 
+  
+  // 얼굴과 목 (움직임 반영)
+  fill(255, 218, 185);
+  rect(275, 165 + headOffset, 50, 100); 
+  arc(300, 263, 100, 40, 0, PI); 
+  ellipse(300, 160 + headOffset, 150, 150); 
+  
+  // 눈 변화 (움직임 반영)
+  fill(0);
+  if (isGrumpy) {
+    strokeWeight(3);
+    line(260, 155 + headOffset, 280, 165 + headOffset); 
+    line(260, 165 + headOffset, 280, 155 + headOffset);
+    line(320, 165 + headOffset, 340, 155 + headOffset); 
+    line(320, 155 + headOffset, 340, 165 + headOffset);
+    strokeWeight(2);
+  } else {
+    ellipse(270, 160 + headOffset, 10, 10); 
+    ellipse(330, 160 + headOffset, 10, 10); 
+  }
+  
+  ellipse(261, 173 + headOffset, 2, 2); 
+  ellipse(338, 185 + headOffset, 1, 1); 
+  
+  // 안경 (움직임 반영)
+  noFill(); 
+  stroke(0);
+  arc(265, 157 + headOffset, 50, 40, 0, PI);
+  arc(335, 157 + headOffset, 50, 40, 0, PI);
+  line(290, 157 + headOffset, 310, 157 + headOffset);
+  
+  // 입 (움직임 반영)
+  if (isGrumpy) {
+    noFill();
+    arc(300, 200 + headOffset, 40, 20, PI, TWO_PI); 
+  } else {
+    fill(255);            
+    arc(300, 188 + headOffset, 50, 40, 0, PI); 
+    line(275, 188 + headOffset, 325, 188 + headOffset); 
+    line(278, 197 + headOffset, 321, 197 + headOffset); 
+  }
+
+  // 머리카락 (움직임 반영)
+  fill(60, 40, 30); 
+  stroke(0);
+  arc(247, 95 + headOffset, 110, 100, radians(-15), radians(145)); 
+  arc(353, 95 + headOffset, 110, 100, radians(35), radians(195));
+
+//---------------피아노 건반 파트------------------
+  //흰 건반 (8개, 너비 50씩, x=100 ~ 500)
+  fill(255);
+  rect(100, 330, 50, 70); // 도
+  rect(150, 330, 50, 70); // 레
+  rect(200, 330, 50, 70); // 미
+  rect(250, 330, 50, 70); // 파
+  rect(300, 330, 50, 70); // 솔
+  rect(350, 330, 50, 70); // 라
+  rect(400, 330, 50, 70); // 시
+  rect(450, 330, 50, 70); // 도
+
+  //검은 건반
+  fill(0);
+  rect(135, 355, 30, 45); // 도# (150-15)
+  rect(185, 355, 30, 45); // 레# (200-15)
+  rect(285, 355, 30, 45); // 파# (300-15)
+  rect(335, 355, 30, 45); // 솔# (350-15)
+  rect(385, 355, 30, 45); // 라# (400-15)
+
+let isOverBlack = (mouseX > 135 && mouseX < 165 && mouseY > 355 && mouseY < 400) ||
+                    (mouseX > 185 && mouseX < 215 && mouseY > 355 && mouseY < 400) ||
+                    (mouseX > 285 && mouseX < 315 && mouseY > 355 && mouseY < 400) ||
+                    (mouseX > 335 && mouseX < 365 && mouseY > 355 && mouseY < 400) ||
+                    (mouseX > 385 && mouseX < 415 && mouseY > 355 && mouseY < 400);
+
+  // 2. 흰 건반 그리기
+  // 검은 건반 위에 없을 때( !isOverBlack )만 색이 변하도록 조건을 추가함
+  
+  // 도
+  if (!isOverBlack && mouseX > 100 && mouseX < 150 && mouseY > 330 && mouseY < 400) fill(200); else fill(255);
+  rect(100, 330, 50, 70);
+
+  // 레
+  if (!isOverBlack && mouseX > 150 && mouseX < 200 && mouseY > 330 && mouseY < 400) fill(200); else fill(255);
+  rect(150, 330, 50, 70);
+
+  // 미
+  if (!isOverBlack && mouseX > 200 && mouseX < 250 && mouseY > 330 && mouseY < 400) fill(200); else fill(255);
+  rect(200, 330, 50, 70);
+
+  // 파
+  if (!isOverBlack && mouseX > 250 && mouseX < 300 && mouseY > 330 && mouseY < 400) fill(200); else fill(255);
+  rect(250, 330, 50, 70);
+
+  // 솔
+  if (!isOverBlack && mouseX > 300 && mouseX < 350 && mouseY > 330 && mouseY < 400) fill(200); else fill(255);
+  rect(300, 330, 50, 70);
+
+  // 라
+  if (!isOverBlack && mouseX > 350 && mouseX < 400 && mouseY > 330 && mouseY < 400) fill(200); else fill(255);
+  rect(350, 330, 50, 70);
+
+  // 시
+  if (!isOverBlack && mouseX > 400 && mouseX < 450 && mouseY > 330 && mouseY < 400) fill(200); else fill(255);
+  rect(400, 330, 50, 70);
+
+  // 높은 도
+  if (!isOverBlack && mouseX > 450 && mouseX < 500 && mouseY > 330 && mouseY < 400) fill(200); else fill(255);
+  rect(450, 330, 50, 70);
+
+
+  // 3. 검은 건반 그리기 (흰 건반 위에 그려져야 하므로 나중에 작성)
+  
+  // 도#
+  if (mouseX > 135 && mouseX < 165 && mouseY > 355 && mouseY < 400) fill(100); else fill(0);
+  rect(135, 355, 30, 45);
+
+  // 레#
+  if (mouseX > 185 && mouseX < 215 && mouseY > 355 && mouseY < 400) fill(100); else fill(0);
+  rect(185, 355, 30, 45);
+
+  // 파#
+  if (mouseX > 285 && mouseX < 315 && mouseY > 355 && mouseY < 400) fill(100); else fill(0);
+  rect(285, 355, 30, 45);
+
+  // 솔#
+  if (mouseX > 335 && mouseX < 365 && mouseY > 355 && mouseY < 400) fill(100); else fill(0);
+  rect(335, 355, 30, 45);
+
+  // 라#
+  if (mouseX > 385 && mouseX < 415 && mouseY > 355 && mouseY < 400) fill(100); else fill(0);
+  rect(385, 355, 30, 45);
+}
+function keyPressed(){
+  if (key==='s'){
+    saveGif('p5.js_test', 10);
+  }
+}
+  </script>
+</body>
+</html>

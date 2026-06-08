@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <style>
+    /* 여백 없이 캔버스만 딱 보이게 하는 설정 */
+    body { padding: 0; margin: 0; overflow: hidden; }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js"></script>
+</head>
+<body>
+  <script>
+    function setup() {
+      createCanvas(600, 400);
+      textSize(20);
+    }
+
+  function setup() {
+  createCanvas(600, 400);
+  textSize(20);
+  
+}
+
+function draw() {
+  background(200);
+  
+//   fill(0);//커서 X, Y 좌표 표시, 검정색
+//   text("X: "+mouseX+"  Y: "+mouseY, 0, 20); //사용 후 정적인 결과물을 만들기 위해 주석처리하였습니다.
+  
+  
+  stroke(255, 0, 0); // 빨간색 외곽선
+  strokeWeight(2); //굵기: 2
+  
+  fill(255, 200, 200);//분홍색 삼각형
+  triangle(466,361, 580, 370, 545, 290);
+  
+  line(50, 50, 350, 150);//좌측 상단 선1
+  line(41, 167,252, 168);//좌측 상단 선2
+  line(470, 65, 545, 203);//우측 상단 선1
+  line(514, 66, 597, 217);//우측 상단 선2
+  
+  fill(2, 120, 18);//초록색 원
+  ellipse(100,100,100,100);
+  
+  noFill();
+  arc(506, 54, 150, 100, radians(-176), radians(100));//우측 꽈배기 코드
+  arc(510, 116, 150, 100, radians(45), radians(247));
+  arc(506, 174, 150, 100, radians(-96), radians(145));
+  arc(510, 230, 150, 100, radians(45), radians(247));
+  arc(506, 290, 150, 100, radians(-96), radians(145));
+  arc(510, 340, 150, 100, radians(45), radians(247));
+  
+  fill(50, 18, 122)//남색 바탕 타원
+  ellipse(302, 200, 400, 260)
+  
+  fill(255,255,255);//하얀색 타원
+  ellipse(302,200, 100, 150);
+  
+  fill(255, 255, 123);//노란색 원
+  ellipse(302, 200, 50, 50);
+  
+  fill(255, 255, 255);//점 4개
+  point(384, 219);
+  point(361, 188);
+  point(151, 168);
+  point(231, 231);
+  
+  fill(0,255, 255);//가운데의 민트색 사각형
+  rect(234, 284, 100, 200);
+  
+  fill(255, 255, 240);//좌측하단 하얀 사각형
+  rect(191, 321, 50, 100);
+  
+  fill(100, 210, 220);//우측 하늘색 사각형
+  rect(325, 346, 100, 150);
+  
+  fill(0, 0, 120); //모서리가 둥근 남색 사각형
+  square(40, 250, 80, 15);
+  
+  fill(250, 100, 100);//우측상단 다홍색 타원
+  ellipse(485, 57, 100, 40);
+  
+  fill(255, 255, 130);//우측상단 노란색 반구
+  arc(486, 48, 50, 50, -PI, 0);
+
+}
+  </script>
+</body>
+</html>
